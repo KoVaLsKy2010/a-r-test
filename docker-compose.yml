@@ -1,28 +1,59 @@
-version: '2'
+version: '3.9'
 
 volumes:
-  dbdata_mysql_maria:
+  db_data_sql:
 
 services:
   php:
-    image: yiisoftware/yii2-php:7.1-apache
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: americor_yii
+    container_name: americor_yii
     volumes:
       - ~/.composer-docker/cache:/root/.composer/cache:delegated
       - ./:/app:delegated
     ports:
-      - '8000:80'
-    links:
-      - mysql
+      - '80:80'
+    #    links:
+    #      - mysql
+    networks:
+      - americor_network
     depends_on:
-      - mysql
+      - pgsql
 
-  mysql:
-    image: mariadb:10.5.2
-    container_name: americor-mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: americor-test
-    volumes:
-      - "dbdata_mysql_maria:/var/lib/mysql"
+  #  mariadb:
+  #    image: mariadb:10.5.2
+  #    container_name: americor-sql
+  #    environment:
+  #      MYSQL_USER: americor-user
+  #      MYSQL_ROOT_PASSWORD: americor-password
+  #      MYSQL_DATABASE: americor-test
+  #    networks:
+  #      - americor_network
+  #    volumes:
+  #      - 'db_data_sql_maria:/var/lib/mysql'
+  #    ports:
+  #      - '3503:3306'
+  #      - '33306:3306'
+
+  pgsql:
+    image: 'postgres:14.3'
+    container_name: americor_pgsql
+    command: postgres -c 'max_connections=5000'
     ports:
-      - 127.0.0.1:3503:3306
+      - '5432:5432'
+      - '65432:5432'
+    networks:
+      - americor_network
+    volumes:
+      - db_data_sql:/var/lib/postgresql/data
+    environment:
+      PGPASSWORD: 'americor-password'
+      POSTGRES_DB: 'americor-test'
+      POSTGRES_USER: 'americor-user'
+      POSTGRES_PASSWORD: 'americor-password'
+
+networks:
+  americor_network:
+    driver: bridge
