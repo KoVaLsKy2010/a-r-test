@@ -1,0 +1,1 @@
+$(document).pjax('.pagination a', '#grid-pjax', {timeout: 5000});
