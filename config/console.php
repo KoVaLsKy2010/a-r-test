@@ -17,6 +17,9 @@ $config = [
 //        'cache' => [
 //            'class' => 'yii\caching\FileCache',
 //        ],
+        'assetManager' => [
+            'linkAssets' => true,
+        ],
         'log' => [
             'targets' => [
                 [
