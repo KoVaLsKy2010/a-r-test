@@ -7,6 +7,9 @@ use Yii;
 
 class Export extends ExportMenu
 {
+    /*
+     * self::FORMAT_CSV - Пока не посмотрим в документацию библиотеки не поймем, что в этой константе ('Csv')
+     */
     public $exportType = self::FORMAT_CSV;
 
     public function init()

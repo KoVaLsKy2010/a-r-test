@@ -31,6 +31,10 @@ use yii\db\ActiveRecord;
  */
 class History extends ActiveRecord
 {
+    /*
+     * Возможно я плохо знаю YII, но ни одного метода тейта не используется.
+     * Зачем он тут?
+     */
     use ObjectNameTrait;
 
     const EVENT_CREATED_TASK = 'created_task';
